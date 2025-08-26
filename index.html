@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AP Statistics PoK Blockchain - ReScript Digital Twin</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .app-header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .app-header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .app-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+        
+        .left-column, .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .profile-section, .question-section, .blockchain-section, .controls-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .profile-section h3, .question-section h3, .blockchain-section h3, .controls-section h3 {
+            margin: 0 0 15px 0;
+            color: #2c3e50;
+            font-size: 1.3rem;
+        }
+        
+        .profile-section p, .question-section p, .blockchain-section p {
+            margin: 8px 0;
+            font-size: 1rem;
+        }
+        
+        .answer-buttons, .control-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .comparison-section {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 30px;
+        }
+        
+        .comparison-section h3 {
+            color: #1976d2;
+            margin: 0 0 20px 0;
+            font-size: 1.4rem;
+            text-align: center;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .comparison-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-item h4 {
+            margin: 0 0 10px 0;
+            color: #1976d2;
+            font-size: 1.1rem;
+        }
+        
+        .comparison-item p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #666;
+        }
+        
+        .status-section {
+            background: #f1f8e9;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 30px 30px 30px;
+        }
+        
+        .status-section h3 {
+            color: #388e3c;
+            margin: 0 0 15px 0;
+            font-size: 1.3rem;
+        }
+        
+        .status-section p {
+            margin: 8px 0;
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .app-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .app-header h1 {
+                font-size: 2rem;
+            }
+            
+            .answer-buttons, .control-buttons {
+                justify-content: center;
+            }
+        }
+        
+        /* Chart.js container styling */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 20px 0;
+        }
+        
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Success/Error indicators */
+        .success { color: #27ae60; }
+        .error { color: #e74c3c; }
+        .warning { color: #f39c12; }
+        
+        /* Code snippets */
+        .code {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        /* Loading screen for initial app startup */
+        #root:empty::after {
+            content: "🎓 Loading AP Statistics PoK Blockchain - ReScript Digital Twin...";
+            display: block;
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <!-- ReScript compiled JavaScript -->
+    <script src="./lib/es6/src/Index.bs.js"></script>
+    
+    <script>
+        // Initialize MathJax for LaTeX rendering
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+        
+        // Log application start
+        console.log('🎓 AP Statistics PoK Blockchain - ReScript Digital Twin');
+        console.log('📋 Based on racket-digital-twin.rkt with enhancements');
+        console.log('🔄 Implementing ADR-012 Social Consensus and ADR-028 Emergent Attestation');
+        console.log('⚡ Enhanced with React hooks, type safety, and modern UI');
+        console.log('🎯 Behavioral parity with racket-digital-twin.rkt achieved');
+    </script>
+</body>
+</html>

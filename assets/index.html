@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AP Statistics PoK Blockchain</title>
+    
+    <!-- Chart.js 4.4.4 UMD CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.js"></script>
+    
+    <!-- QRCode.js CDN for Phase 5 QR generation -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            margin: 10px 0 0;
+            font-size: 1.1em;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        #app {
+            min-height: 400px;
+            padding: 20px;
+        }
+        
+        .fallback {
+            text-align: center;
+            padding: 2rem;
+            color: #6c757d;
+        }
+        
+        .fallback h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 AP Statistics PoK Blockchain</h1>
+            <p>Decentralized Educational Platform - ClojureScript Implementation</p>
+        </div>
+        
+        <!-- Main application mount point -->
+        <div id="app">
+            <div class="fallback">
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
+                <h2>🔄</h2>
+                <div>Loading AP Statistics PoK Blockchain...</div>
+                <div style="font-size: 0.9rem; margin-top: 0.5rem;">
+                    Initializing ClojureScript modules with reputation system...
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ClojureScript main bundle -->
+    <script src="/js/main.js"></script>
+</body>
+</html>

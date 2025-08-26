@@ -1,0 +1,17 @@
+{
+  "name": "apstat-rescript",
+  "sources": {
+    "dir": "src",
+    "subdirs": true
+  },
+  "package-specs": [
+    "es6"
+  ],
+  "suffix": ".bs.js",
+  "bs-dependencies": [
+    "@rescript/react"
+  ],
+  "jsx": {
+    "version": 4
+  }
+}

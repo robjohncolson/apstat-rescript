@@ -1,0 +1,100 @@
+[
+  {
+    "id": "U1-L1-Q01",
+    "type": "multiple-choice", 
+    "prompt": "A data set has a mean of 85 and a standard deviation of 12. What percentage of data falls within one standard deviation of the mean according to the empirical rule?",
+    "choices": [
+      {"key": "A", "value": "34%"},
+      {"key": "B", "value": "68%"}, 
+      {"key": "C", "value": "95%"},
+      {"key": "D", "value": "99.7%"}
+    ],
+    "correct": "B",
+    "attachments": {
+      "chart-type": "bar",
+      "data": {
+        "labels": ["Below 73", "73-85", "85-97", "Above 97"],
+        "datasets": [{
+          "label": "Frequency",
+          "data": [16, 34, 34, 16],
+          "backgroundColor": "rgba(54, 162, 235, 0.6)"
+        }]
+      }
+    }
+  },
+  {
+    "id": "U1-L1-Q02", 
+    "type": "free-response",
+    "prompt": "A researcher collects data on test scores from two different teaching methods. Method A has a mean of 78 with standard deviation 8, Method B has a mean of 82 with standard deviation 15. Compare the variability of the two methods and explain which method produces more consistent results.",
+    "rubric": {
+      "criteria": [
+        "Correctly identifies standard deviation as measure of variability (1 point)",
+        "Compares standard deviations numerically (1 point)", 
+        "Concludes Method A is more consistent due to lower SD (2 points)",
+        "Provides clear explanation linking SD to consistency (1 point)"
+      ],
+      "maxScore": 5
+    }
+  },
+  {
+    "id": "U1-L2-Q01",
+    "type": "multiple-choice",
+    "prompt": "Which of the following best describes a Type I error?",
+    "choices": [
+      {"key": "A", "value": "Rejecting a true null hypothesis"},
+      {"key": "B", "value": "Accepting a false null hypothesis"},
+      {"key": "C", "value": "Failing to reject a true null hypothesis"},  
+      {"key": "D", "value": "Correctly rejecting a false null hypothesis"}
+    ],
+    "correct": "A"
+  },
+  {
+    "id": "U1-L2-Q02",
+    "type": "multiple-choice",
+    "prompt": "A 95% confidence interval for the mean height of students is (65.2, 68.8) inches. What does this tell us?",
+    "choices": [
+      {"key": "A", "value": "95% of students have heights between 65.2 and 68.8 inches"},
+      {"key": "B", "value": "We are 95% confident the true mean height is between 65.2 and 68.8 inches"},
+      {"key": "C", "value": "The probability the mean is in this interval is 0.95"},
+      {"key": "D", "value": "95% of sample means will fall in this range"}
+    ],
+    "correct": "B"
+  },
+  {
+    "id": "U1-L3-Q01",
+    "type": "free-response",
+    "prompt": "An experiment tests whether a new fertilizer increases crop yield. The null hypothesis is H₀: μ = 50 bushels per acre. After testing, the p-value is 0.03. If α = 0.05, what is your conclusion and what does it mean in context?",
+    "rubric": {
+      "criteria": [
+        "States correct decision (reject H₀) (1 point)",
+        "Uses correct reasoning (p < α) (1 point)",
+        "Provides context interpretation (fertilizer increases yield) (2 points)", 
+        "Mentions statistical significance (1 point)"
+      ],
+      "maxScore": 5
+    }
+  },
+  {
+    "id": "U2-L1-Q01",
+    "type": "multiple-choice",
+    "prompt": "Which of the following is the best way to reduce sampling bias?",
+    "choices": [
+      {"key": "A", "value": "Increase the sample size"},
+      {"key": "B", "value": "Use random sampling methods"},
+      {"key": "C", "value": "Use stratified sampling"},
+      {"key": "D", "value": "Collect data from multiple locations"}
+    ],
+    "correct": "B",
+    "attachments": {
+      "chart-type": "pie",
+      "data": {
+        "labels": ["Random", "Convenience", "Stratified", "Cluster"],
+        "datasets": [{
+          "label": "Sampling Methods",
+          "data": [40, 25, 20, 15],
+          "backgroundColor": ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"]
+        }]
+      }
+    }
+  }
+]
