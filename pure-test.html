@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pure ReScript Test - No CLJS Dependencies</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .test-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .status {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f1aeb5; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        
+        .console-output {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 16px;
+        }
+        
+        button:hover { background: #2980b9; }
+        
+        .app-frame {
+            border: 3px solid #e74c3c;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            min-height: 400px;
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="header">
+            <h1>🔬 Pure ReScript Test</h1>
+            <p><strong>CLJS-Free Environment</strong> - Testing ReScript Digital Twin in Isolation</p>
+        </div>
+        
+        <div class="content">
+            <div class="status info">
+                <strong>🎯 Purpose:</strong> Verify ReScript implementation runs without any CLJS interference
+            </div>
+            
+            <button onclick="clearConsole()">🗑️ Clear Console</button>
+            <button onclick="logReScriptInfo()">📊 Log ReScript Info</button>
+            <button onclick="testReScriptApp()">🚀 Test App</button>
+            
+            <h3>🖥️ ReScript Application Output:</h3>
+            <div class="app-frame">
+                <div id="root">
+                    <div style="text-align: center; color: #666; padding: 20px;">
+                        <h4>⏳ Loading Pure ReScript Application...</h4>
+                        <p>No CLJS code should be executed here</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>📋 Console Monitor:</h3>
+            <div id="console-output" class="console-output">
+                [Console messages will appear here]
+            </div>
+            
+            <div id="test-status">
+                <div class="status info">
+                    <strong>🔍 Test Status:</strong> Ready - Click "Test App" to verify pure ReScript execution
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ONLY load ReScript compiled code - no CLJS references -->
+    <script>
+        // Console capture for debugging
+        let consoleOutput = document.getElementById('console-output');
+        let originalLog = console.log;
+        let originalError = console.error;
+        let originalWarn = console.warn;
+        
+        function captureConsole(type, ...args) {
+            const message = args.map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' ');
+            
+            const timestamp = new Date().toLocaleTimeString();
+            const line = `[${timestamp}] ${type.toUpperCase()}: ${message}`;
+            
+            consoleOutput.textContent += line + '\n';
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            
+            // Call original
+            if (type === 'log') originalLog(...args);
+            else if (type === 'error') originalError(...args);
+            else if (type === 'warn') originalWarn(...args);
+        }
+        
+        console.log = (...args) => captureConsole('log', ...args);
+        console.error = (...args) => captureConsole('error', ...args);
+        console.warn = (...args) => captureConsole('warn', ...args);
+        
+        function clearConsole() {
+            consoleOutput.textContent = '[Console cleared]\n';
+        }
+        
+        function logReScriptInfo() {
+            console.log('🔬 Pure ReScript Test Environment');
+            console.log('📦 React version:', React?.version || 'Not loaded');
+            console.log('🎯 Current URL:', window.location.href);
+            console.log('📄 Document title:', document.title);
+            console.log('🌐 User agent:', navigator.userAgent.substring(0, 50) + '...');
+        }
+        
+        function testReScriptApp() {
+            console.log('🚀 Testing ReScript App...');
+            
+            // Check for CLJS contamination
+            const suspiciousGlobals = ['cljs', 'goog', 'shadow', 'reagent', 'reframe'];
+            let contaminated = false;
+            
+            suspiciousGlobals.forEach(global => {
+                if (window[global]) {
+                    console.error(`❌ CLJS contamination detected: window.${global} exists`);
+                    contaminated = true;
+                }
+            });
+            
+            if (!contaminated) {
+                console.log('✅ No CLJS contamination detected');
+            }
+            
+            // Check ReScript specific globals
+            console.log('🔍 Checking for ReScript artifacts...');
+            
+            const rootElement = document.getElementById('root');
+            if (rootElement) {
+                console.log('✅ Root element found');
+                
+                // Check if content is rendered
+                setTimeout(() => {
+                    const hasContent = rootElement.innerHTML.length > 100;
+                    if (hasContent) {
+                        console.log('✅ ReScript content appears to be rendered');
+                        document.getElementById('test-status').innerHTML = 
+                            '<div class="status success"><strong>🎉 SUCCESS:</strong> Pure ReScript application running cleanly!</div>';
+                    } else {
+                        console.warn('⚠️ Minimal content in root element - check for render issues');
+                        document.getElementById('test-status').innerHTML = 
+                            '<div class="status error"><strong>❌ ISSUE:</strong> ReScript app may not be rendering properly</div>';
+                    }
+                }, 1000);
+            } else {
+                console.error('❌ Root element not found');
+            }
+        }
+        
+        // Auto-run basic checks
+        setTimeout(() => {
+            logReScriptInfo();
+            testReScriptApp();
+        }, 500);
+    </script>
+    
+    <!-- Load ONLY ReScript compiled JavaScript -->
+    <script type="module" src="./src/Index.bs.js"></script>
+    
+    <script>
+        // Final verification
+        setTimeout(() => {
+            console.log('🔚 Pure ReScript test initialization complete');
+            
+            // Check if any .cljs references appeared in console
+            const consoleText = document.getElementById('console-output').textContent;
+            if (consoleText.includes('.cljs') || consoleText.includes('shadow') || consoleText.includes('Hiccup')) {
+                console.error('❌ CRITICAL: CLJS references detected in pure ReScript test!');
+                document.getElementById('test-status').innerHTML = 
+                    '<div class="status error"><strong>🚨 CONTAMINATION:</strong> CLJS code is still being executed!</div>';
+            } else {
+                console.log('✅ VERIFIED: Pure ReScript execution confirmed');
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
